@@ -1,28 +1,35 @@
-import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import DashBoard from '../Components/DashBoard';
 import Mybooking from '../Components/Mybooking';
 import Hotels from '../Components/Hotels';
-
-
+import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
+import {faSquarePollVertical} from '@fortawesome/free-solid-svg-icons/faSquarePollVertical';
+import {faHotel} from '@fortawesome/free-solid-svg-icons/faHotel';
+import {faCheckToSlot} from '@fortawesome/free-solid-svg-icons/faCheckToSlot';
 
 const Tab = createBottomTabNavigator();
 
 function Bottomtab() {
   return (
     <Tab.Navigator
-      initialRouteName="Feed"
+      initialRouteName="DashBoard"
       screenOptions={{
         tabBarActiveTintColor: '#e91e63',
-      }}
-    >
+      }}>
       <Tab.Screen
         name="DashBoard"
         component={DashBoard}
         options={{
+          headerShown:false,
+          tabBarStyle:{height:60,borderTopLeftRadius:20,borderTopRightRadius:20},
           tabBarLabel: 'DashBoard',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="view-dashboard" color={color} size={24} />
+          tabBarLabelStyle:{padding:2 , fontSize:12},
+          tabBarIcon: ({color, size}) => (
+            <FontAwesomeIcon
+              color={color}
+              size={size}
+              icon={faSquarePollVertical}
+            />
           ),
         }}
       />
@@ -30,20 +37,26 @@ function Bottomtab() {
         name="Mybooking"
         component={Mybooking}
         options={{
+          headerShown:false,
+          tabBarStyle:{height:60,borderTopLeftRadius:20,borderTopRightRadius:20},
+          tabBarLabelStyle:{padding:2 , fontSize:12},
           tabBarLabel: 'Mybooking',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="bell" color={color} size={size} />
+          tabBarIcon: ({color, size}) => (
+            <FontAwesomeIcon color={color} size={size} icon={faCheckToSlot} />
+
           ),
-          tabBarBadge: 3,
         }}
       />
       <Tab.Screen
         name="Hotels"
         component={Hotels}
         options={{
+          headerShown:false,
+          tabBarStyle:{height:60,borderTopLeftRadius:20,borderTopRightRadius:20},
+          tabBarLabelStyle:{padding:2 , fontSize:12},
           tabBarLabel: 'Hotels',
-          tabBarIcon: ({ color, size }) => (
-            <MaterialCommunityIcons name="account" color={color} size={size} />
+          tabBarIcon: ({color, size}) => (
+            <FontAwesomeIcon color={color} size={size} icon={faHotel} />
           ),
         }}
       />
@@ -51,4 +64,4 @@ function Bottomtab() {
   );
 }
 
-export default Bottomtab
+export default Bottomtab;
