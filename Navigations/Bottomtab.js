@@ -14,14 +14,14 @@ function Bottomtab() {
     <Tab.Navigator
       initialRouteName="DashBoard"
       screenOptions={{
-        tabBarActiveTintColor: '#e91e63',
+        tabBarActiveTintColor: '#60a5fa',
       }}>
       <Tab.Screen
         name="DashBoard"
         component={DashBoard}
         options={{
           headerShown:false,
-          tabBarStyle:{height:60,borderTopLeftRadius:20,borderTopRightRadius:20},
+          tabBarStyle:{height:60,borderTopLeftRadius:20,borderTopRightRadius:20,position:'absolute',backgroundColor:'#eff6ff'},
           tabBarLabel: 'DashBoard',
           tabBarLabelStyle:{padding:2 , fontSize:12},
           tabBarIcon: ({color, size}) => (
@@ -38,7 +38,7 @@ function Bottomtab() {
         component={Mybooking}
         options={{
           headerShown:false,
-          tabBarStyle:{height:60,borderTopLeftRadius:20,borderTopRightRadius:20},
+          tabBarStyle:{height:60,borderTopLeftRadius:20,borderTopRightRadius:20,position:'absolute',backgroundColor:'#eff6ff'},
           tabBarLabelStyle:{padding:2 , fontSize:12},
           tabBarLabel: 'Mybooking',
           tabBarIcon: ({color, size}) => (
@@ -52,7 +52,7 @@ function Bottomtab() {
         component={Hotels}
         options={{
           headerShown:false,
-          tabBarStyle:{height:60,borderTopLeftRadius:20,borderTopRightRadius:20},
+          tabBarStyle:{height:60,borderTopLeftRadius:20,borderTopRightRadius:20,position:'absolute',backgroundColor:'#eff6ff'},
           tabBarLabelStyle:{padding:2 , fontSize:12},
           tabBarLabel: 'Hotels',
           tabBarIcon: ({color, size}) => (
