@@ -6,13 +6,14 @@ import {faArrowRightLong} from '@fortawesome/free-solid-svg-icons/faArrowRightLo
 import {faIndianRupeeSign} from '@fortawesome/free-solid-svg-icons/faIndianRupeeSign';
 import {faHotel} from '@fortawesome/free-solid-svg-icons/faHotel';
 import {faCartShopping} from '@fortawesome/free-solid-svg-icons/faCartShopping';
+import BookingCard from './BookingCard';
 
 const DashBoard = () => {
   return (
     <View className='bg-white flex-1'>
     <StatusBar backgroundColor={'white'} translucent={true}/>
       <View className='justify-center mx-2 p-2'>
-         <View style={{elevation:2}} className='mt-2 w-full h-24 bg-white rounded-md flex justify-between items-center flex-row p-4'>
+         <View style={{elevation:2}} className='mt-2 w-full h-16 bg-white rounded-md flex justify-between items-center flex-row p-4'>
           <View className='flex flex-row items-center justify-between gap-4'>
             <View><FontAwesomeIcon color='#60a5fa' size={30} icon={faUserGroup} /></View>
             <View className='flex flex-col  justify-between '>
@@ -22,7 +23,7 @@ const DashBoard = () => {
           </View>
           <View><FontAwesomeIcon size={20} color='grey'  icon={faArrowRightLong} /></View>
          </View>
-         <View style={{elevation:2}} className='mt-2 w-full h-24 bg-white rounded-md flex justify-between items-center flex-row p-4'>
+         <View style={{elevation:2}} className='mt-2 w-full h-16 bg-white rounded-md flex justify-between items-center flex-row p-4'>
           <View className='flex flex-row items-center justify-between gap-4'>
             <View><FontAwesomeIcon color='#60a5fa' size={30} icon={faIndianRupeeSign} /></View>
             <View className='flex flex-col  justify-between '>
@@ -32,7 +33,7 @@ const DashBoard = () => {
           </View>
           <View><FontAwesomeIcon size={20} color='grey'  icon={faArrowRightLong} /></View>
          </View>
-         <View style={{elevation:2}} className='mt-2 w-full h-24 bg-white rounded-md flex justify-between items-center flex-row p-4'>
+         <View style={{elevation:2}} className='mt-2 w-full h-16 bg-white rounded-md flex justify-between items-center flex-row p-4'>
           <View className='flex flex-row items-center justify-between gap-4'>
             <View><FontAwesomeIcon color='#60a5fa' size={30} icon={faHotel} /></View>
             <View className='flex flex-col justify-between '>
@@ -42,7 +43,7 @@ const DashBoard = () => {
           </View>
           <View><FontAwesomeIcon size={20} color='grey'  icon={faArrowRightLong} /></View>
          </View>
-         <View style={{elevation:2}} className='mt-2 w-full h-24 bg-white rounded-md flex justify-between items-center flex-row p-4'>
+         <View style={{elevation:2}} className='mt-2 w-full h-16 bg-white rounded-md flex justify-between items-center flex-row p-4'>
           <View className='flex flex-row items-center justify-between gap-4'>
             <View><FontAwesomeIcon color='#60a5fa' size={30} icon={faCartShopping} /></View>
             <View className='flex flex-col  justify-between '>
@@ -56,6 +57,7 @@ const DashBoard = () => {
       </View>
 
       <Text className='text-gray-800 font-bold mx-2 p-2'>Recent Booking</Text>
+      <BookingCard/>
 
     </View>
   )
