@@ -12,7 +12,7 @@ const HotelsCard = () => {
     <View
       style={{elevation: 2}}
       className="bg-white w-11/12 mx-auto h-auto my-2 rounded-md">
-      <View style={{elevation: 2}} className="bg-teal-50 rounded-md">
+      <View style={{elevation: 2}} className="bg-blue-50 rounded-md">
         <Image
           className="w-full h-40 rounded-t-md"
           source={{
