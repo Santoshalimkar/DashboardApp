@@ -1,44 +1,45 @@
 import {View, Text, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import React, { useState } from 'react';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faHeart} from '@fortawesome/free-solid-svg-icons/faHeart';
-import {faBookmark} from '@fortawesome/free-solid-svg-icons/faBookmark';
-import {faComment} from '@fortawesome/free-solid-svg-icons/faComment';
-import {faShareNodes} from '@fortawesome/free-solid-svg-icons/faShareNodes';
+import {faArrowRight} from '@fortawesome/free-solid-svg-icons/faArrowRight';
+import { useNavigation } from '@react-navigation/native';
 
 
-const HotelsCard = () => {
+const HotelsCard = ({data}) => {
+  const navigation=useNavigation()
+
+  const navigatecard=(id)=>{
+    navigation.navigate('Hoteldetails',{id:id})   
+  }
   return (
+    <TouchableOpacity onPress={()=>navigatecard(data.item._id)}>
+
     <View
-      style={{elevation: 2}}
-      className="bg-white w-11/12 mx-auto h-auto my-2 rounded-md">
-      <View style={{elevation: 2}} className="bg-blue-50 rounded-md">
+      style={{elevation: 0}}
+      className="bg-white w-11/12 mx-auto h-auto my-2 rounded-md border border-gray-200">
+      <View style={{elevation: 0}} className="bg-blue-50 rounded-md">
         <Image
-          className="w-full h-40 rounded-t-md"
+          className="w-full h-72 rounded-t-md"
           source={{
-            uri:'https://plus.unsplash.com/premium_photo-1680082510819-cace32f84aeb?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxlZGl0b3JpYWwtZmVlZHwxMnx8fGVufDB8fHx8fA%3D%3D'
+            uri:data.item.images[0].URL
           }}
         />
         <View className="flex flex-row justify-between items-center mx-2">
-          <View className="flex flex-row justify-evenly gap-4 items-center p-2">
-            <TouchableOpacity>
-
-            <FontAwesomeIcon size={22}  icon={faHeart} />
-            </TouchableOpacity>
-            <FontAwesomeIcon size={22} color="#d1d5db" icon={faComment} />
-            <FontAwesomeIcon size={22} color="#d1d5db" icon={faShareNodes} />
+          <View className='p-2'>
+            <Text className='text-lg capitalize text-blue-400'>{data.item.name}</Text>
           </View>
           <View>
-            <FontAwesomeIcon size={22} color="#d1d5db" icon={faBookmark} />
+            <FontAwesomeIcon size={22} color="#d1d5db" icon={faArrowRight} />
           </View>
         </View>
         <View>
-            <Text style={{fontFamily:"Poppins-Regular"}} className="text-gray-700 text-xs p-2">
-            comment
+            <Text style={{fontFamily:"Poppins-Regular"}} className="text-gray-700 text-xs p-4">
+            {data.item.description}
             </Text>
         </View>
       </View>
     </View>
+    </TouchableOpacity>
   );
 };
 

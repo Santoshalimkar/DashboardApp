@@ -1,5 +1,5 @@
-import { View, Text, StatusBar } from 'react-native'
-import React from 'react'
+import { View, Text, StatusBar,FlatList } from 'react-native'
+import React,{useState,useEffect} from 'react'
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
 import {faUserGroup} from '@fortawesome/free-solid-svg-icons/faUserGroup';
 import {faArrowRightLong} from '@fortawesome/free-solid-svg-icons/faArrowRightLong';
@@ -7,8 +7,41 @@ import {faIndianRupeeSign} from '@fortawesome/free-solid-svg-icons/faIndianRupee
 import {faHotel} from '@fortawesome/free-solid-svg-icons/faHotel';
 import {faCartShopping} from '@fortawesome/free-solid-svg-icons/faCartShopping';
 import BookingCard from './BookingCard';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import axios from 'axios';
 
 const DashBoard = () => {
+  const [bookinglist,Setbooking]=useState([])
+
+
+  const fetchData = async () => {
+    try {
+      const accessToken = await AsyncStorage.getItem('userToken'); 
+
+      console.log('this is token', accessToken);
+      const response = await axios.get(
+        'https://api-uat.activetlife.com/api/hotel-management/property-owner/bookings?page=1&limit=10',
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
+
+      const products = response.data.items.bookings;
+      console.log(products);
+
+      if (products) {
+        Setbooking(products);
+      }
+    } catch (error) {
+      console.error('Error fetching data:', error);
+    }
+  };
+
+  useEffect(() => {
+    fetchData();
+  }, []);
   return (
     <View className='bg-white flex-1'>
     <StatusBar backgroundColor={'white'} translucent={true}/>
@@ -57,7 +90,15 @@ const DashBoard = () => {
       </View>
 
       <Text className='text-gray-800 font-bold mx-2 p-2'>Recent Booking</Text>
-      <BookingCard/>
+
+      <FlatList
+      className='mb-20'
+        data={bookinglist}
+        keyExtractor={(item) => item._id}
+        renderItem={(item)=>(
+          <BookingCard data={item}/>
+        )}
+      />
 
     </View>
   )

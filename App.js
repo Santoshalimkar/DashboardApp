@@ -9,9 +9,14 @@ import {faArrowsToDot} from '@fortawesome/free-solid-svg-icons/faArrowsToDot';
 import Login from './Onboarding/Login';
 import Signup from './Onboarding/Signup';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import HotelDetails from './Components/HotelDetails';
+import Addroom from './Components/Addroom';
 
 
 const Stack = createNativeStackNavigator();
+
+
+
 
 export default function App() {
 
@@ -24,8 +29,9 @@ export default function App() {
   const checkUserAuthentication = async () => {
     try {
       const userToken = await AsyncStorage.getItem('userToken');
-      if (userToken) {
-        setLoggedIn(true);
+      const isLog = await AsyncStorage.getItem('isLogged');
+      if (!userToken) {
+        setLoggedIn(isLog);
       }
     } catch (error) {
       console.error('Error checking user authentication:', error);
@@ -37,6 +43,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator>
       {isLoggedIn ? (
+        <>
 
         <Stack.Screen
           name="Home"
@@ -57,11 +64,41 @@ export default function App() {
             ),
           }}
         />
-      )
+         <Stack.Screen
+              name="Hoteldetails"
+              component={HotelDetails}
+              options={{ headerShown: false }}
+            />
+         <Stack.Screen
+              name="Addroom"
+              component={Addroom}
+              options={{ headerShown: false }}
+            />
+             {/* <Stack.Screen
+          name="Home2"
+          component={bottomtab}
+          options={{
+            headerShown: true,
+            headerTitle: 'ActiveLife',
+            headerTitleStyle:{color:'#60a5fa'},
+            headerRight: () => (
+              <TouchableOpacity>
+                <FontAwesomeIcon size={22} icon={faBars} />
+              </TouchableOpacity>
+            ),
+            headerLeft: () => (
+              <TouchableOpacity className='mr-4'>
+                <FontAwesomeIcon size={22} color='#60a5fa' icon={faArrowsToDot} />
+              </TouchableOpacity>
+            ),
+          }}
+        /> */}
+      </>)
       :
       (
         <>
             <Stack.Screen
+            initialRouteName="Login"
               name="Login"
               component={Login}
               options={{ headerShown: false }}

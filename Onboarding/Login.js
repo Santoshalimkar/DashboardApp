@@ -10,13 +10,12 @@ import {
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 
-const Login = () => {
+const Login = ({navigation} ) => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const passwordMinLength = 6;
-
   const handleLogin = async () => {
     if (!emailRegex.test(email)) {
       Alert.alert('Validation Error', 'Please enter a valid email address.');
@@ -31,14 +30,16 @@ const Login = () => {
       return;
     }
     try {
-      const response = await axios.post('your_login_api_endpoint', {
+      const response = await axios.post('https://api-uat.activetlife.com/api/hotel-management/property-owner/signin-password', {
         email: email,
         password: password,
       });
 
+      console.log(response)
       if (response.data && response.data.token) {
         await AsyncStorage.setItem('userToken', response.data.token);
-        console.log('Login successful! Redirecting to the main app screen.');
+        await AsyncStorage.setItem('isLogged', 'true');
+        navigation.navigate('Home');
       } else {
         Alert.alert(
           'Login Failed',
@@ -55,14 +56,14 @@ const Login = () => {
     <View className="flex-1 justify-center items-center bg-white">
       <View
         style={{elevation: 2}}
-        className="bg-blue-50 h-[60vh] w-11/12 rounded-lg ">
+        className="bg-white h-[60vh] w-11/12 rounded-lg ">
         <Text className="text-blue-400 font-bold text-center p-2 text-lg mb-8">
           Login
         </Text>
         <View className="w-full items-start flex p-4  gap-6">
           <TextInput
-            className="border border-blue-200 w-full text-gray-800 rounded-md pl-3"
-            placeholderTextColor={'#60a5fa'}
+            className="border border-gray-200 w-full text-gray-800 rounded-md pl-3 bg-gray-50"
+            placeholderTextColor={'black'}
             placeholder="Email"
             value={email}
             onChangeText={text => setEmail(text)}
@@ -70,15 +71,15 @@ const Login = () => {
             autoCapitalize="none"
           />
           <TextInput
-            className="border border-blue-200  w-full text-gray-800 rounded-md pl-3"
-            placeholderTextColor={'#60a5fa'}
+            className="border border-gray-200  w-full text-gray-800 rounded-md pl-3 bg-gray-50"
+            placeholderTextColor={'black'}
             placeholder="Password"
             value={password}
             onChangeText={text => setPassword(text)}
             secureTextEntry
           />
         </View>
-        <TouchableOpacity className="bg-blue-400 w-4/5 mx-auto rounded-lg p-2 h-10 mt-4">
+        <TouchableOpacity onPress={handleLogin} className="bg-blue-400 w-4/5 mx-auto rounded-lg p-2 h-10 mt-4">
           <Text className="text-center text-white font-bold">Login</Text>
         </TouchableOpacity>
 
@@ -86,7 +87,7 @@ const Login = () => {
           <Text className="text-gray-800 text-center">
             Don't have an account?
           </Text>
-          <TouchableOpacity>
+          <TouchableOpacity onPress={() => navigation.navigate('Signup')}>
             <Text className="text-blue-400 text-center">Register</Text>
           </TouchableOpacity>
         </View>
