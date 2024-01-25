@@ -38,14 +38,16 @@ import BookingCard from './BookingCard'
     return (
       <View className='bg-white flex-1 pb-[60px]'>
         <Text className='text-gray-800 mx-2 p-2 font-bold'>My Booking</Text>
-        <FlatList
+       {bookinglist.length>0 && <FlatList
         data={bookinglist}
         keyExtractor={(item) => item._id}
         renderItem={(item)=>(
           <BookingCard data={item}/>
         )}
-      />
-       
+      />}
+       {bookinglist.length===0 && <View className='flex-1 justify-center items-center'>
+        <Text className='text-black text-lg'>No Bookings</Text>
+      </View>}
       </View>
     )
  

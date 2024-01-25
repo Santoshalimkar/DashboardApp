@@ -9,8 +9,13 @@ import {
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { login, logout } from '../Redux/Authslice';
+
 
 const Login = ({navigation} ) => {
+  const isLogged = useSelector((state) => state.auth.isLogged);
+  const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -39,6 +44,7 @@ const Login = ({navigation} ) => {
       if (response.data && response.data.token) {
         await AsyncStorage.setItem('userToken', response.data.token);
         await AsyncStorage.setItem('isLogged', 'true');
+        dispatch(login())
         navigation.navigate('Home');
       } else {
         Alert.alert(

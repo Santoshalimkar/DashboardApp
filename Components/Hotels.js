@@ -162,11 +162,18 @@ const Hotels = () => {
             <Text className="text-white">Add Hotel</Text>
           </TouchableOpacity>
         </View>
-        <FlatList
-          data={productList}
-          keyExtractor={item => item._id}
-          renderItem={item => <HotelsCard data={item} />}
-        />
+        {productList.length === 0 ? (
+          <View className='flex-1 justify-center items-center '>
+
+<Text className='text-black text-lg'>No hotels Added</Text>
+</View>
+        ) : (
+          <FlatList
+            data={productList}
+            keyExtractor={(item) => item._id}
+            renderItem={(item) => <HotelsCard data={item} />}
+          />
+        )}
       </View>
 
      

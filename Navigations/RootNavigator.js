@@ -3,7 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {Text, TouchableOpacity} from 'react-native';
 import {FontAwesomeIcon} from '@fortawesome/react-native-fontawesome';
-import {faBars} from '@fortawesome/free-solid-svg-icons/faBars';
+import {faPowerOff} from '@fortawesome/free-solid-svg-icons/faPowerOff';
 import {faArrowsToDot} from '@fortawesome/free-solid-svg-icons/faArrowsToDot';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import Bottomtab from './Bottomtab';
@@ -11,6 +11,9 @@ import HotelDetails from '../Components/HotelDetails';
 import Addroom from '../Components/Addroom';
 import Login from '../Onboarding/Login';
 import Signup from '../Onboarding/Signup';
+import { useSelector, useDispatch } from 'react-redux';
+import { login, logout } from '../Redux/Authslice';
+import SplashScreen from '../Components/SplashScreen';
 
 
 const Stack = createNativeStackNavigator();
@@ -19,30 +22,50 @@ const Stack = createNativeStackNavigator();
 
 
 export default function RootNavigator() {
-
-  const [isLoggedIn, setLoggedIn] =useState(false);
+  const [loading, setLoading] = useState(true);
+  const isLogged = useSelector((state) => state.auth.isLogged);
+  const dispatch = useDispatch();
 
   useEffect(() => {
-    checkUserAuthentication();
+    const initializeApp = async () => {
+      try {
+        const userToken = await AsyncStorage.getItem('userToken');
+        if (!userToken) {
+          dispatch(logout());
+          setLoading(false);
+          return;
+        }
+
+        await new Promise((resolve) => setTimeout(resolve, 2000));
+        dispatch(login())
+        setLoading(false);
+      } catch (error) {
+        console.error('Error during app initialization:', error);
+        setLoading(false);
+      }
+    };
+
+    initializeApp();
   }, []);
 
-  const checkUserAuthentication = async () => {
+  if (loading) {
+    return <SplashScreen />;
+  }
+ 
+
+  const handleLogout = async () => {
     try {
-      const userToken = await AsyncStorage.getItem('userToken');
-      const isLog = await AsyncStorage.getItem('isLogged');
-      if (userToken) {
-        setLoggedIn(isLog);
-      }
+      await AsyncStorage.removeItem('userToken');
+      dispatch(logout());
     } catch (error) {
-      console.error('Error checking user authentication:', error);
+      console.error('Error removing token from AsyncStorage:', error);
     }
   };
- 
 
   return (
     <NavigationContainer>
       <Stack.Navigator>
-      {isLoggedIn ? (
+      {isLogged ? (
         <>
 
         <Stack.Screen
@@ -53,8 +76,8 @@ export default function RootNavigator() {
             headerTitle: 'ActiveLife',
             headerTitleStyle:{color:'#60a5fa'},
             headerRight: () => (
-              <TouchableOpacity>
-                <FontAwesomeIcon size={22} icon={faBars} />
+              <TouchableOpacity onPress={handleLogout}>
+                <FontAwesomeIcon size={22} icon={faPowerOff} />
               </TouchableOpacity>
             ),
             headerLeft: () => (

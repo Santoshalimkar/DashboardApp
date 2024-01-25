@@ -252,6 +252,10 @@ const handleChangeroom = (field, value) => {
 };
 
 const handleAddRoom = async (hotelId) => {
+  if(!roomData.name && !roomData.description){
+    Alert.alert('All fields are required')
+    return false
+  }
 
   const accessToken = await AsyncStorage.getItem('userToken');
 
@@ -332,7 +336,7 @@ const handleAddRoom = async (hotelId) => {
             <ScrollView className=" h-[500px]">
               <View className="p-2 mx-2 border-gray-300  border-b flex flex-row justify-between items-start ">
                 <View>
-                  <Text className="text-black font-bold text-lg">
+                  <Text className="text-black font-bold text-lg capitalize">
                     {Hotel.name}
                   </Text>
                   <Text className="text-black font-medium text-xs pb-3">
