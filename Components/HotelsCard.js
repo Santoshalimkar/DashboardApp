@@ -19,7 +19,7 @@ const HotelsCard = ({data}) => {
       className="bg-white w-11/12 mx-auto h-auto my-2 rounded-md border border-gray-200">
       <View style={{elevation: 0}} className="bg-blue-50 rounded-md">
         <Image
-          className="w-full h-72 rounded-t-md"
+          className="w-full h-52 rounded-t-md"
           source={{
             uri:data.item.images[0].URL
           }}
