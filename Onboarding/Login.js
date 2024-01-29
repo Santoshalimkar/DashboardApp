@@ -6,24 +6,27 @@ import {
   Button,
   Alert,
   TouchableOpacity,
+  ActivityIndicator,
 } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
-import { useSelector, useDispatch } from 'react-redux';
-import { login, logout } from '../Redux/Authslice';
+import {useSelector, useDispatch} from 'react-redux';
+import {login, logout} from '../Redux/Authslice';
 
-
-const Login = ({navigation} ) => {
-  const isLogged = useSelector((state) => state.auth.isLogged);
+const Login = ({navigation}) => {
+  const isLogged = useSelector(state => state.auth.isLogged);
   const dispatch = useDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [loading, setloading] = useState(false);
 
   const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const passwordMinLength = 6;
   const handleLogin = async () => {
+    setloading(true);
     if (!emailRegex.test(email)) {
       Alert.alert('Validation Error', 'Please enter a valid email address.');
+
       return;
     }
 
@@ -32,19 +35,23 @@ const Login = ({navigation} ) => {
         'Validation Error',
         `Password must be at least ${passwordMinLength} characters long.`,
       );
+      setloading(false);
       return;
     }
     try {
-      const response = await axios.post('https://api-uat.activetlife.com/api/hotel-management/property-owner/signin-password', {
-        email: email,
-        password: password,
-      });
+      const response = await axios.post(
+        'https://api-uat.activetlife.com/api/hotel-management/property-owner/signin-password',
+        {
+          email: email,
+          password: password,
+        },
+      );
 
-      console.log(response)
+      console.log(response);
       if (response.data && response.data.token) {
         await AsyncStorage.setItem('userToken', response.data.token);
         await AsyncStorage.setItem('isLogged', 'true');
-        dispatch(login())
+        dispatch(login());
         navigation.navigate('Home');
       } else {
         Alert.alert(
@@ -55,6 +62,8 @@ const Login = ({navigation} ) => {
     } catch (error) {
       console.error('Error during login:', error);
       Alert.alert('Error', 'An error occurred during login. Please try again.');
+    } finally {
+      setloading(false);
     }
   };
 
@@ -85,8 +94,14 @@ const Login = ({navigation} ) => {
             secureTextEntry
           />
         </View>
-        <TouchableOpacity onPress={handleLogin} className="bg-blue-400 w-4/5 mx-auto rounded-lg p-2 h-10 mt-4">
-          <Text className="text-center text-white font-bold">Login</Text>
+        <TouchableOpacity
+          onPress={handleLogin}
+          className="bg-blue-400 w-4/5 mx-auto rounded-lg p-2 h-10 mt-4">
+          {loading ? (
+            <ActivityIndicator color={'#60a5fa'} size={'large'} />
+          ) : (
+            <Text className="text-center text-white font-bold">Login</Text>
+          )}
         </TouchableOpacity>
 
         <View className="flex flex-row mt-4 p-2 justify-center  ">

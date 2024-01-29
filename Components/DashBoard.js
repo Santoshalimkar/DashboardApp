@@ -111,7 +111,7 @@ useEffect(() => {
   }, []);
   return (
     <View className="bg-white flex-1">
-      <StatusBar backgroundColor={'white'} translucent={true} />
+      <StatusBar backgroundColor={'white'}  />
       <View className="justify-center mx-2 p-2">
         <View
           style={{elevation: 2}}

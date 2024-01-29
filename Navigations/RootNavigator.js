@@ -32,21 +32,31 @@ export default function RootNavigator() {
         const userToken = await AsyncStorage.getItem('userToken');
         if (!userToken) {
           dispatch(logout());
-          setLoading(false);
           return;
         }
+       
+
 
         await new Promise((resolve) => setTimeout(resolve, 2000));
-        dispatch(login())
-        setLoading(false);
+        if (userToken) {
+          dispatch(login());
+        }
+
       } catch (error) {
         console.error('Error during app initialization:', error);
-        setLoading(false);
       }
     };
 
     initializeApp();
   }, []);
+
+  useEffect(() => {
+			setTimeout(async () => {
+				setLoading(false);
+			}, 3000);
+	
+
+	}, []);
 
   if (loading) {
     return <SplashScreen />;
